@@ -1,0 +1,236 @@
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<body th:fragment="content">
+<div>
+<script>
+	function showAddMenu(){
+		//loadMenus();
+		$("#addMenu").load("/thinkwork/admin/addMenu #addMenu").modal("show");
+		//var ifm= document.getElementById("addMenu"); 
+		//ifm.src = "/thinkwork/administration/addMenu";
+		//$("#addMenu").src = "/thinkwork/administration/addMenu";
+		//$("#addMenu").modal('show');
+		
+	}
+
+	//function iFrameHeight() {  
+			//var ifm= document.getElementById("addMenu");  
+			//var subWeb = document.frames ? document.frames["addMenu"].document : ifm.contentDocument;  
+			//if(ifm != null && subWeb != null) {  
+				//ifm.height = subWeb.body.scrollHeight;  
+				//ifm.width = subWeb.body.scrollWidth;  
+			//}  
+	//}
+	
+	function loadMenus(){
+		$.ajax({
+                type: "GET",//方法类型
+                url: "/thinkwork/admin/topMenus" ,//url
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.resultCode == 200) {
+                        alert("SUCCESS");
+                    }
+                    ;
+                },
+                error : function() {
+                    alert("异常！");
+                }
+            });
+	}
+
+	function saveMenu(){
+		var form = document.getElementById('addMenuForm');
+		form.submit();
+	}
+</script>
+<div class='container-fluid'>
+<div class='row-fluid'>
+<div class='span12'>
+<div class='span12 box bordered-box orange-border' style='margin-bottom:0;margin-left:0;margin-top:0;'>
+<div class='box-header blue-background' style="height:20;">
+    <div class='title' >
+	<i class='icon-list-ul'></i>
+	<span style="font-size:18;">System Menus</span>
+	</div>
+		<div class='actions'>
+			<a class="btn btn-primary btn-small" role="button" style="margin-bottom: 5px;" href="#" onclick="showAddMenu()" data-toggle="modal">
+				<i class="icon-plus"></i>
+				Add New
+			</a>
+			<a class="btn btn-warning btn-small" role="button" style="margin-bottom: 5px;" href="/thinkwork/sysSettings/menu">
+				<i class="icon-refresh"></i>
+				Refresh
+			</a>
+		</div>
+	<!--
+    <div class='actions'>
+        <a href="#" class="btn box-remove btn-mini btn-link"><i class='icon-remove'></i>
+        </a>
+        <a href="#" class="btn box-collapse btn-mini btn-link"><i></i>
+        </a>
+    </div>
+	-->
+
+<div tabindex="-1" class="modal-1 fade-1 in-1" style="display:none; width:780;" id="addMenu" role="dialog" aria-hidden="true">
+</div>
+
+<!--<iframe id="addMenu" name="addMenu"  tabindex="-1"
+class="modal-1 fade-1 in-1" style="display:none;" role="dialog" 
+aria-hidden="true" scrolling="no"  marginwidth="0"  marginheight="0" 
+ width="100%" frameborder="0" onload='iFrameHeight()'>
+ 
+</iframe>
+-->
+</div>
+
+
+<div class='box-content box-no-padding'>
+<div class='responsive-table'>
+<div class='scrollable-area'>
+<!--<table class='data-table-column-filter table table-bordered table-striped' style='margin-bottom:0;'>-->
+<table class='data-table table table-bordered table-striped dataTable' style='margin-bottom:0;'>
+<thead>
+<tr style="height:15;">
+    <th class="text-center" style="font-size:12;">
+        Code
+    </th>
+    <th class="text-center" style="font-size:12;">
+        Name
+    </th>
+    <th class="text-center" style="font-size:12;">
+        Display Name
+    </th>
+	<th class="text-center" style="font-size:12;">
+        Url
+    </th>
+	<th class="text-center" style="font-size:12;">
+        Date Modified
+    </th>
+	<th class="text-center" style="font-size:12;">
+        Date Created
+    </th>
+	<th class="text-center" style="font-size:12;">
+        Status
+    </th>
+	<th  class="text-center" style="font-size:12;">
+		Action
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="menu,iterStat : ${allMenus}"  style="height:15;">
+    <td  class="text-center" style="font-size:11;" th:text="${menu.menuCode}">Lavern Oberbrunner </td>
+    <td  class="text-center"  style="font-size:11;" th:text="${menu.menuName}">antonette@hotmail.com</td>
+    <td  class="text-center"  style="font-size:11;" th:text="${menu.displayName}"> 
+        <!--<span class='label label-important'>Important</span>-->
+    </td>
+    <td  class="text-center"  style="font-size:11;" th:text="${menu.url}"> 
+        <!--<div class='text-right'>
+            <a class='btn btn-success btn-mini' href='#'>
+                <i class='icon-ok'></i>
+            </a>
+            <a class='btn btn-danger btn-mini' href='#'>
+                <i class='icon-remove'></i>
+            </a>
+        </div>-->
+    </td>
+	<td  class="text-center"  style="font-size:11;" th:text="${menu.dateModified}"></td>
+	<td  class="text-center"  style="font-size:11;" th:text="${menu.dateCreation}"></td>
+	<td  class="text-center" style="font-size:11;" ><span th:class="${menu.active}?'label label-success':'label label-important'" th:text="${menu.active}?'Active':'Inactive'">Important</span></td>
+	<td> 
+        <!----><div class='text-right'>
+            <a class='btn btn-warning btn-mini' href='#editMenu'  data-toggle="modal">
+                <i class='icon-edit'></i>
+            </a>
+            <a class='btn btn-danger btn-mini' href='#'  data-toggle="modal">
+                <i class='icon-remove'></i>
+            </a>
+        </div>
+    </td>
+</tr>
+</tbody>
+<!--
+<tfoot>
+<tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Display Name</th>
+	<th>Url</th>
+	<th>Date Created</th>
+	<th>Date Modified</th>
+	<th>Status</th>
+	<th>Action</th>
+</tr>
+</tfoot>-->
+</table>
+
+		<div tabindex="-1" class="modal-1 fade-1 in-1" style="display:none; width:780;" id="editMenu" role="dialog" aria-hidden="true" >
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">×</button>
+                    <h4>Edit Menu</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form" style="margin-bottom: 0px;">
+                        <div class="control-group">
+                            <label class="control-label" style="color:#333333">Menu Name:</label>
+                            <div class="controls">
+                                <input class="span12" id="menuName-edit" type="text" placeholder="City placeholder">
+                                <p class="help-block">
+                            </p></div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label"  style="color:#333333">Display Name:</label>
+                            <div class="controls">
+                                <input class="span12" id="displayName" type="text" placeholder="Display Name">
+                                <small class="muted" style="font-size:10px">The name displayed in front end.</small>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" style="color:#333333">Parent Menu</label>
+                            <div class="controls">
+                                <input class="span12" id="parentCode" type="text" placeholder="Parent Menu">
+                                <p class="help-block">
+                            </p></div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Company</label>
+                            <div class="controls">
+                                <select class='select2 input-block-level' >
+									<!--<optgroup label='Alaskan/Hawaiian Time Zone'>
+										<option value='AK' />Alaska
+										<option value='HI' />Hawaii
+									</optgroup>-->
+									<optgroup label='一级菜单'>
+										<option value='AK' />Alaska
+										<option value='HI' />Hawaii
+									</optgroup>
+									<optgroup label='二级菜单'>
+										<option value='AK' />Alaska
+										<option value='HI' />Hawaii
+									</optgroup>
+								</select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                </div>
+        </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

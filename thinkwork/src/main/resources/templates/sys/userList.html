@@ -1,0 +1,118 @@
+
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:include="common/common::listHeader('thinkwork 用户列表')"></head>
+<body th:fragment="content">
+<div class='container-fluid'>
+		<div class='row-fluid' id='content-wrapper'>
+			<div class='span12 box bordered-box orange-border' style='margin-bottom:0;margin-left:0;margin-top:10px;'>
+				<div class="box-header blue-background">
+					<div class="title">
+						<div class="icon-search"></div>
+						[[#{title.search}]]
+					</div>
+					<div class='actions'>
+						<a href="#" class="btn box-collapse btn-mini btn-link"><i></i>
+						</a>
+					</div>
+				</div>
+				<div class="box-content">
+					<form class="form form-horizontal" th:action="@{/thinkwork/sys/user}" th:method="get">
+						<div style="margin: 0px; padding: 0px; display: inline;">
+							<input type="hidden" id="_csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+						</div>
+						<div class='control-group span4'>
+							<label class="control-label">[[#{user.username}]]:</label>
+							<div class="controls">
+								<input type="text" name="query_userName" placeholder="User Name" th:value="${query_userName}"/>
+							</div>
+						</div>
+						<div class='control-group span4'>
+							<label class="control-label " >[[#{user.email}]]:</label>
+							<div class="controls">
+								<input type="text" name="query_email" placeholder="Email"  th:value="${query_email}"/>
+							</div>
+						</div>
+						<div class='control-group span5'>
+							<label class="control-label " >[[#{user.isactive}]]:</label>
+							<div class="controls">
+								<select name="query_status" >
+									<option value="" th:selected="${query_status} == '' ? 'selected'">[[#{user.status.all}]]</option>
+									<option value="1" th:selected="${query_status} == '1' ? 'selected'">[[#{user.status.active}]]</option>
+									<option value="0" th:selected="${query_status} == '0' ? 'selected'">[[#{user.status.inactive}]]</option>
+								</select>
+							</div>
+						</div>
+						<div class='control-group '>
+							<div class="controls">
+								<button class="btn btn-primary pull-right" type="submit" th:placeholder="#{btn.search}"><i class="icon-search"></i>[[#{btn.search}]]</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class='row-fluid' id='content-wrapper'>
+			<div class='span12 box bordered-box orange-border' style='margin-bottom:0;margin-left:0;margin-top:10px;'>
+				<div class='box-header blue-background'>
+					<div class='title'><i class='icon-user'></i>
+						<span>[[#{user.usermanagement}]]</span>
+					</div>
+					<div class="btn-group pull-right" style="margin-bottom:5px">
+						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/thinkwork/sys/user/detail?requestType=CREATE"><i class="icon-plus"></i>   [[#{btn.add}]]</a>
+							</li>
+							<li>
+								<a href="/thinkwork/sys/user"><i class="icon-refresh"></i>   [[#{btn.refresh}]]</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class='box-content box-no-padding'>
+					<div class='responsive-table'>
+						<table id="resultTable" class='table table-bordered table-hover table-striped' style='margin-bottom:0;'>
+						<thead>
+							<tr >
+								<!--<th><input name="checkRow" class="styled" type="checkbox"></th>-->
+									<th >[[#{user.name}]]</th>
+									<th >[[#{user.email}]]</th>
+									<th >[[#{user.datecreated}]]</th>
+									<th >[[#{user.isexpired}]]</th>
+									<th >[[#{user.isactive}]]</th>
+								<!--	<th >[[#{user.action}]]</th>-->
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user,iterStat : ${results}"  >
+								<!--<th><input name="checkRow" class="styled" type="checkbox"></th>-->
+								<td><a th:text="${user.userName}" th:href="@{/thinkwork/sys/user/detail(requestType='DISPLAY',sid=${user.sid})}">antonette@hotmail.com</a></td>
+								<td   th:text="${user.email}"></td>
+								<td   th:text="${#dates.format(user.dateCreated,'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td class="align-center"><span th:class="${user.expired}?'label label-success':'label label-important'" th:text="${user.expired}?'N':'Y'">Important</span></td>
+								<td class="align-center"><span th:class="${user.active}?'label label-success':'label label-important'" th:text="${user.active}?'Active':'Inactive'">Important</span></td>
+								<!--<td class="align-center"> 
+									<ul class="table-controls">
+										<li><a th:href="@{/thinkwork/sys/user/detail(requestType='UPDATE',sid=${user.sid})}" class="tip" title="Edit entry"><i class="fam-pencil"></i></a> </li>
+										<li><a  href="javascript:;" th:onclick="|javascript:removeEntity('${user.sid}')|" class="tip" title="Remove entry"><i class="fam-cross"></i></a> </li>
+									</ul>
+								</td>-->
+							</tr>
+						</tbody>
+						</table>
+						<div class="table-footer  pull-right">
+							<div class="pagination">
+								<div th:include="common/page :: pager" th:remove="tag"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</body>
+</html>

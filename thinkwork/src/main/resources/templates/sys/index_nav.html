@@ -1,0 +1,59 @@
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<div >
+
+<div class='navigation' th:fragment="content">
+<ul class='nav nav-stacked' >
+<li style="height:18;">
+    <a href='javascript:;' th:onclick="|javascript:loadIframe('/thinkwork/sys/home')|">
+	<!--<a href='/thinkwork/dashboard' >-->
+        <i class='icon-dashboard'></i>
+        <span style="font-size:12;">[[#{common.home}]]</span>
+    </a>
+</li>
+<li th:each="menuGroup,iterStat : ${menuGroup}" style="height:18;">
+    <a class='dropdown-collapse' href='#'>
+        <i class='icon-cog'></i>
+        <span th:text="${menuGroup.name}" >Menu Group</span>
+        <i class='icon-angle-down angle-down'></i>
+    </a>
+    <ul class='nav nav-stacked'>
+        <li  th:each="menu,iterStat : ${menuGroup.menuList}" id= 'test'>
+            <!--<a th:href='${secMenu.url}'>-->
+			<a href='javascript:;' th:onclick="|javascript:loadIframe('${menu.url}')|">
+                <i class='icon-caret-right'></i>
+                <span th:text="${menu.displayName}" >Menu Item</span>
+            </a>
+			<!-- third level menus
+			<ul class='nav nav-stacked'>
+                <li th:each="thirdMenu,iterStat : ${menu.subMenu}" >
+                    <a class='dropdown-collapse' th:href='${thirdMenu.url}'>
+                        <i class='icon-caret-right'></i>
+                        <span th:text="${thirdMenu.displayName}" style="font-size:10;">Third level</span>
+                        <i class='icon-angle-down angle-down'></i>
+                    </a>
+                </li>
+            </ul>
+			-->
+        </li>
+    </ul>
+</li>
+</ul>
+</div>
+<div class='pull-right'>
+<!--
+<button class="btn btn-danger" th:onclick="|javascript:refreshMenu('/thinkwork/refreshMenu')|" alt="Refresh the menu.">
+    <i class="icon-lock"></i>
+</button>
+<button class="btn btn-success" th:onclick="|javascript:refreshMenu('/thinkwork/refreshMenu')|" alt="Refresh the menu.">
+    <i class="icon-unlock"></i>
+</button>
+<button class="btn btn-primary" th:onclick="|javascript:refreshMenu('/thinkwork/refreshMenu')|" alt="Refresh the menu.">
+<i class="icon-refresh"></i>
+</button>-->
+</div>
+</div>
+</body>
+</html>

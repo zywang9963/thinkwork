@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	
+<head th:include="common/common::formHeader('thinkwork User Detail')">
+</head>
+<body th:fragment="content">
+	<!-- Content wrapper -->
+	<div class="container-fluid">
+		<div class="row-fluid" id="content-wrapper">
+			<div class="span12">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="page-header">
+                            <h3 class="pull-left">
+                                <i class="icon-user"></i>
+                                <a href="/thinkwork/sys/user" title="">[[#{user.usermanagement}]]</a>
+                            </h3>
+                            <div class="pull-right">
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <a href="/thinkwork/home">[[#{common.home}]]
+                                        </a>
+                                    </li>
+                                    <li class="separator">
+                                        <i class="icon-angle-right"></i>
+                                    </li>
+                                    <li>
+                                        [[#{user.usermanagement}]]
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<!-- /breadcrumbs line -->
+			<br>
+			<div th:if="${createSuccessfully} eq '1'" class='alert alert-success' style="height:20px;">
+				<a class='close' data-dismiss='alert' href='#'>x</a>
+				<span>[[#{msg.createSuccess}]].</span>
+			</div>
+			<div th:if="${updateSuccessfully} eq '1'" class='alert alert-success' style="height:20px;">
+				<a class='close' data-dismiss='alert' href='#'>x</a>
+				<span>[[#{msg.updateSuccess}]].</span>
+			</div>
+			<div class="table-overflow" style="margin-left:100px;margin-right:100px;" id="userDetail" name="userDetail" >
+				<form class="form-horizontal" id="detailForm" name="detailForm" >
+				
+	                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+					<input type="hidden" name="sid" th:value="${tempData?.sid}"/>
+					
+					<div class="widget">
+	                    <div class="navbar"><div class="navbar-inner">
+						<input type="hidden" name="requestType" id="requestType" th:value="${requestType}">
+						<h6  th:switch="${requestType}">
+						<span th:case="CREATE">[[#{label.create}]]</span>
+						<span th:case="UPDATE">[[#{label.update}]]</span>
+						<span th:case="DISPLAY">[[#{label.display}]]</span>
+						</h6>
+						</div></div>
+	                    <div class="row-fluid well">
+							<div class="form-actions align-right">
+	                            <button th:if="(${requestType} eq 'CREATE') or (${requestType} eq 'UPDATE')" class="btn btn-primary" onclick="save()" >[[#{btn.submit}]]</button>
+	                            <button th:if="(${requestType} eq 'CREATE') or (${requestType} eq 'UPDATE')" class="btn" type="reset">[[#{btn.reset}]]</button>
+								<button class="btn btn-danger" onclick="back()" type="button">[[#{btn.back}]]</button>
+	                        </div>
+							<div class="control-group">
+								<label class="control-label">[[#{user.username}]]:</label>
+								<div class="controls">
+									<input data-rule-required='true' class="span8" type="text" name="userName" th:readonly="${requestType} == 'UPDATE' ? 'true' : 'false'" th:placeholder="#{user.username}" th:value="${tempData?.userName}" />
+									<div th:if="${nullUserName} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.nullUserName}]].
+									</div>	
+									<div th:if="${userExists} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.userExists}]].
+									</div>								
+								</div>
+								
+	                        </div>
+
+	                        <div class='control-group'>
+								<label class="control-label" >[[#{user.email}]]:</label>
+								<div class='controls'>
+									<input data-rule-required='true' class="span8" name="email" th:readonly="${requestType} == 'UPDATE' ? 'true' : 'false'" th:placeholder="#{user.email}" type="email" th:value="${tempData?.email}"/>
+									<div th:if="${nullEmail} eq '1'" class='span8 alert alert-error'>
+											<a class='close' data-dismiss='alert' href='#'>x</a>
+											[[#{user.nullEmail}]].
+									</div>					
+									<div th:if="${emailExists} eq '1'" class='span8 alert alert-error'>
+											<a class='close' data-dismiss='alert' href='#'>x</a>
+											[[#{user.emailExists}]].
+									</div>		
+								</div>
+								
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.password}]]:</label>
+								<div class='controls'>
+									<input data-rule-required='true' class="span8" id="password" name="password" th:placeholder="#{user.password}" type="password" th:value="${tempData?.password}"/>
+									<div th:if="${nullPassword} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.nullPassword}]].
+									</div>						
+									<div th:if="${passwordError} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.passwordError}]].
+									</div>
+								</div>
+													
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.password_confirmation}]]:</label>
+								<div class='controls'>
+									<input data-rule-required='true' class="span8" id="password_confirmation" name="password_confirmation" th:placeholder="#{user.password_confirmation}" type="password" th:value="${confirmpwd}"/>
+									<div th:if="${nullConfirmPassword} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.nullConfirmPassword}]].
+									</div>						
+									<div th:if="${passwordError} eq '1'" class='span8 alert alert-error'>
+										<a class='close' data-dismiss='alert' href='#'>x</a>
+										[[#{user.passwordError}]].
+									</div>
+								</div>
+													
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.isactive}]]:</label>
+								<div class='controls'>
+									<select name="active" class="span8">
+	                                    <option value="1" th:selected="${tempData?.active} == true ? 'selected'">[[#{user.status.active}]]</option>
+	                                    <option value="0" th:selected="${tempData?.active} == false ? 'selected'">[[#{user.status.inactive}]]</option>
+	                                </select>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.expiration}]]:</label>
+								<div class='controls'>
+									<select name="expired" class="span8">
+	                                    <option value="1" th:selected="${tempData?.expired} == true ? 'selected'">[[#{user.valid}]]</option>
+	                                    <option value="0" th:selected="${tempData?.expired} == false ? 'selected'">[[#{user.inValid}]]</option>
+	                                </select>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.firstname}]]:</label>
+								<div class='controls'>
+									<input class="span8" id="firstName" name="firstName" th:placeholder="#{user.firstname}" type="text" th:value="${tempData?.firstName}"/>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.lastname}]]:</label>
+								<div class='controls'>
+									<input class="span8" id="lastName" name="lastName" th:placeholder="#{user.lastname}" type="text" th:value="${tempData?.lastName}"/>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.gender}]]:</label>
+								<div class='controls'>
+									<input class="span8" id="gender" name="gender" th:placeholder="#{user.gender}" type="text" th:value="${tempData?.gender}"/>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.birthday}]]:</label>
+								<div class='controls'>
+									<input class="span8 pick-a-date" id="birthday" name="birthday" th:placeholder="#{user.birthday}" type="text" th:value="${tempData?.birthday}"/>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.img}]]:</label>
+								<div class='controls'>
+									<input class="styled span8" type="file" id="img" name="img" th:placeholder="#{user.img}" th:value="${tempData?.img}">
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.telephone}]]:</label>
+								<div class='controls'>
+									<input class="span8" id="telephone" name="telephone" type="text" th:placeholder="#{user.telephone}" th:value="${tempData?.telephone}" data-mask="(999) 9999-9999">
+									<span class="help-block">(021) 6888-8888</span>
+								</div>
+							</div>
+							
+							<div class='control-group'>
+								<label class="control-label" >[[#{user.mobile}]]:</label>
+								<div class='controls'>
+									<input class="span8" id="mobile" name="mobile" type="text" th:value="${tempData?.mobile}" th:placeholder="#{user.mobile}" data-mask="+86 199 9999 9999">
+									<span class="help-block">+86 139 9999 9999</span>
+								</div>
+							</div>
+
+	                        <div class="form-actions align-right">
+	                            <button th:if="(${requestType} eq 'CREATE') or (${requestType} eq 'UPDATE')" class="btn btn-primary" onclick="javascript:save();" >[[#{btn.submit}]]</button>
+	                            <button th:if="(${requestType} eq 'CREATE') or (${requestType} eq 'UPDATE')" class="btn" type="reset">[[#{btn.reset}]]</button>
+								<button class="btn btn-danger" onclick="back()" type="button">[[#{btn.back}]]</button>
+	                        </div>
+	                    </div>
+	                </div>
+	            </form>
+		</div>
+		</div>
+	</div>
+
+<script>
+	
+	$().ready(function() {
+		$("#detailForm").validate();
+	});
+	
+	function back(){
+		history.go(-1);
+	}
+
+	function save(){
+		var requestType = $("#requestType").val();
+		if(requestType == "CREATE"){
+			$("#detailForm").attr('action','/thinkwork/sys/user/create');
+			$("#detailForm").attr('method','post');
+			$("#detailForm").submit();
+		}else if (requestType == "UPDATE"){
+			$("#detailForm").attr('action','/thinkwork/sys/user/update');
+			$("#detailForm").attr('method','post');
+			$("#detailForm").submit();
+		};		
+	}
+</script>		
+</body>
+</html>

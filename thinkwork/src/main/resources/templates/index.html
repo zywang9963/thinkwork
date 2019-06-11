@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	
+<head th:include="common/common::header('thinkwork 主页')"></head>
+<script>
+		function loadIframe(url) {
+			var ifm= document.getElementById("iframepage"); 
+			ifm.src = url;	
+		}
+		
+
+		function iFrameHeight() {  
+			var ifm= document.getElementById("iframepage");  
+			var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;  
+			if(ifm != null && subWeb != null) {  
+				ifm.height = subWeb.body.scrollHeight;  
+				ifm.width = subWeb.body.scrollWidth;  
+			}  
+		}
+		
+</script>
+<body class='contrast-blue' >
+<div th:replace="sys/index_header::content"></div>
+<div id='wrapper'>
+<div id='main-nav-bg'></div>
+<nav class='' id='main-nav'>
+<div th:replace="sys/index_nav::content"></div>
+</nav>
+<!--
+<section id='content'  >
+<div class='container-fluid'>
+<div class='row-fluid' id='content-wrapper'>
+<div class='span12'>
+<div th:fragment="content" th:replace="${view}::content"></div>
+</div>
+</div>
+</div>
+</section>
+-->
+
+<section id='content'>
+<div class='container-fluid' style="margin:0px;padding:0px;">
+<div class='row-fluid' id='content-wrapper' style="margin:0px;padding:0px;">
+<iframe src="/thinkwork/sys/home" id="iframepage" name="iframepage" target="iframepage" 
+class='span12 row-fluid pull-left' scrolling="no"  marginwidth="0"  marginheight="0" 
+ width="100%" frameborder="0" onload='iFrameHeight()'>
+</iframe>
+
+<!--<iframe src="/thinkwork/dashboard" id="iframepage" name="iframepage" target="iframepage" 
+class='span12 row-fluid pull-left' scrolling="auto"  marginwidth="0"  marginheight="0" 
+ width="100%" frameborder="0" height="100%">
+</iframe>
+-->
+</div>
+</div>
+</section>
+</div>
+<footer class='navbar' >
+		<div class="span12 pull-right">
+			<h5>[[#{footer.copyright}]]<h5>
+			<ul>
+				<li><a href="" title="">[[#{footer.contactadmin}]]</a></li>
+				<li><a href="" title="">[[#{footer.reportbug}]]</a></li>
+			</ul>
+		</div>
+</footer>
+</body>
+</html>

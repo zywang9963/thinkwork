@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org"  
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+	<title >thinkwork - Login</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport' />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--[if lt IE 9]>
+    <script src='//assets/javascripts/html5shiv.js' type='text/javascript'></script>
+    <![endif]-->
+    <link th:href='@{/assets/stylesheets/bootstrap/bootstrap.css}' media='all' rel='stylesheet' type='text/css' />
+    <link th:href='@{/assets/stylesheets/bootstrap/bootstrap-responsive.css}' media='all' rel='stylesheet' type='text/css' />
+	<!-- / Net Sync theme -->
+    <link th:href='@{/assets/stylesheets/light-theme.css}' id='color-settings-body-color' media='all' rel='stylesheet' type='text/css' />
+    <!-- / demo -->
+    <link th:href='@{/assets/stylesheets/demo.css}' media='all' rel='stylesheet' type='text/css' />
+	
+	<script type="text/javascript" th:src="@{/assets/javascripts/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/javascripts/jquery_ui/jquery-ui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/javascripts/jquery/jquery-migrate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/javascripts/bootstrap/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/javascripts/plugins/forms/jquery.validate.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/javascripts/plugins/forms/messages_zh.js}"></script>
+	
+</head>
+
+<body class='contrast-blue sign-in contrast-background'>
+<div id='wrapper'>
+    <div class='application'>
+        <div class='application-content'>
+            <a th:href="@{/thinkwork/index}"><div class='icon-heart'></div>
+                <span>thinkwork</span>
+            </a>
+        </div>
+    </div>
+
+    <div class='controls'>
+        <div class='caret'></div>
+        <div class='form-wrapper'>
+            <h1 class='text-center'>[[#{login.title}]]</h1>
+            <form accept-charset="UTF-8" th:action="@{/thinkwork/loginDo}" name="loginForm" id="loginForm" method="post" >
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			<div style="margin:0;padding:0;display:inline">
+				<div th:if="${param.error}" class='alert alert-error'>
+					<a class='close' data-dismiss='alert' href='#'>x</a>
+					<h6>[[#{login.alert.error}]]</h6>
+					[[#{login.error.wronguserpasswork}]].
+				</div>
+				<div th:if="${param.logout}" class='alert alert-info'>
+					<a class='close' data-dismiss='alert' href='#'>x</a>
+					<h6>[[#{login.alert.info}]]</h6>
+					[[#{login.info.logout}]].
+				</div>
+				<input name="utf8" type="hidden" value="&#x2713;" />
+			</div>
+                <div class='row-fluid'>
+                    <div class='span12 icon-over-input'>
+                        <input data-rule-required='true' class="span12" id="username" name="username" th:placeholder="#{user.username}" type="text" value="" />
+                        <i class='icon-user muted'></i>
+                    </div>
+                </div>
+                <div class='row-fluid'>
+                    <div class='span12 icon-over-input'>
+                        <input data-rule-required='true' class="span12" id="password" name="password" th:placeholder="#{user.password}" type="password" value="" />
+                        <i class='icon-lock muted'></i>
+                    </div>
+                </div>
+                <label class="checkbox" for="remember_me"><input id="rememberme" name="rememberme" type="checkbox" value="1" />
+                    [[#{login.rememberme}]]
+                </label>
+                <button class="btn btn-block" name="button" type="submit" >[[#{login.btn.login}]]</button>
+            </form>
+            <div class='text-center'>
+                <hr class='hr-normal' />
+                <a th:href="@{/thinkwork/forgotpassword}">[[#{login.recoverpassword}]]?</a>
+            </div>
+        </div>
+    </div>
+    <div class='login-action text-center'>
+        <a th:href="@{/thinkwork/register}"><i class='icon-user'></i>
+            <strong>[[#{login.register}]]</strong>
+        </a>
+    </div>
+</div>
+<script>
+	$().ready(function() {
+		$("#loginForm").validate();
+	});
+	
+	function setLang(lang){
+	$.ajax({
+			url:"/thinkwork/login",
+			type: "GET",
+			data: {"lang":"en_US"},
+			dataType: 'application/jason',
+			success: function(data){
+				alert(lang);
+            }
+		});
+	}
+</script>
+	
+</body>
+</html>

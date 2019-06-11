@@ -1,0 +1,68 @@
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"  th:fragment="content">
+<head th:include="common/common::header('thinkwork System Settings')"></head>
+<body style="margin:0;padding:0;overflow:hidden" scroll="no">
+<div class='row-fluid'>
+    <div class='span12 box' style='margin-bottom: 0'>
+        <div class='box-content'>
+			<div class="pull-right">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href='/thinkwork/dashboard' ><i class="icon-dashboard"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-angle-right"> </i>
+                    </li>
+                    <li class="active">System Settings</li>
+                </ul>
+			</div>
+            <div class='tabbable' style='margin-top: 20px'>
+                <ul class='nav nav-responsive nav-tabs'>
+                    <li th:class="${defaultTab}=='menu'?'active':''">
+                        <a  href='/thinkwork/sysSettings/menu'>
+                            Menu Management
+                        </a>
+                    </li>
+                    <li th:class="${defaultTab}=='user'?'active':''">
+                        <a  href='/thinkwork/sysSettings/user'>
+                            User Management
+                        </a>
+                    </li>
+                    <li th:class="${defaultTab}=='group'?'active':''">
+                        <a href='/thinkwork/sysSettings/group'>
+                            Group Management
+                        </a>
+                    </li>
+                    <li th:class="${defaultTab}=='role'?'active':''">
+                        <a href='/thinkwork/sysSettings/role'>
+                            Role Management
+                        </a>
+                    </li>
+                </ul>
+                <div class='tab-content'>
+                    <div th:class="${defaultTab}=='menu'?'active':''+ ' tab-pane'" id="menu">
+					<div th:replace="/admin/menu_management::content"></div>
+					<!--<div th:include="/administration/menu_management.html"></div>-->
+                    </div>
+                    <div th:class="${defaultTab}=='user'?'active':''+ ' tab-pane'" id="user">
+					<div th:replace="/admin/user_management::content"></div>
+					<!--<div th:replace="/administration/user_management.html"></div>-->
+                    </div>
+                    <div th:class="${defaultTab}=='group'?'active':''+ ' tab-pane'" id="group">
+					<div th:replace="/admin/group_management::content"></div>
+					<!--<div th:replace="/administration/group_management.html"></div>-->
+                    </div>
+                    <div th:class="${defaultTab}=='role'?'active':''+ ' tab-pane'" id="role">
+					<div th:replace="/admin/role_management::content"></div>
+					<!--<div th:replace="/administration/role_management.html"></div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="common/common::footer"></div>
+</body>
+</html>

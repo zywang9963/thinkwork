@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="page">
+<body>
+<div th:fragment="pager">
+    <div  th:with="baseUrl=${#httpServletRequest.getRequestURL().toString()},pars=${#httpServletRequest.getQueryString() eq null ? '' : new String(#httpServletRequest.getQueryString().getBytes('iso8859-1'), 'UTF-8')}">
+        <ul style="margin:0px;"  th:with="newPar=${new java.lang.String(pars eq null ? '' : pars).replace('page='+(results.number), '')},
+                                                curTmpUrl=${baseUrl+'?'+newPar},
+                                                curUrl=${curTmpUrl.endsWith('&amp;') ? curTmpUrl.substring(0, curTmpUrl.length()-1):curTmpUrl}" >
+            <!--<li th:text="${pars}"></li>-->
+             <li><a href="#" th:href="@{${curUrl}(page=0)}">[[#{page.first}]]</a></li>
+            <li th:if="${results.hasPrevious()}"><a href="#" th:href="@{${curUrl}(page=${results.number-1})}">[[#{page.previous}]]</a></li>
+ 
+            <!--总页数小于等于10-->
+            <div th:if="${(results.totalPages le 10) and (results.totalPages gt 0)}" th:remove="tag">
+                <div th:each="pg : ${#numbers.sequence(0, results.totalPages - 1)}" th:remove="tag">
+                        <span th:if="${pg eq results.getNumber()}" th:remove="tag">
+                            <li class="active"><span class="current_page line_height" th:text="${pg+1}">${pageNumber}</span></li>
+                        </span>
+                    <span th:unless="${pg eq results.getNumber()}" th:remove="tag">
+                            <li><a href="#" th:href="@{${curUrl}(page=${pg})}" th:text="${pg+1}"></a></li>
+                        </span>
+                </div>
+            </div>
+ 
+            <!-- 总数数大于10时 -->
+            <div th:if="${results.totalPages gt 10}" th:remove="tag">
+                <li th:if="${results.number-2 ge 0}"><a href="#" th:href="@{${curUrl}(page=${results.number}-2)}" th:text="${results.number-1}"></a></li>
+                <li th:if="${results.number-1 ge 0}"><a href="#" th:href="@{${curUrl}(page=${results.number}-1)}" th:text="${results.number}"></a></li>
+                <li class="active"><span class="current_page line_height" th:text="${results.number+1}"></span></li>
+                <li th:if="${results.number+1 lt results.totalPages}"><a href="#" th:href="@{${curUrl}(page=${results.number}+1)}" th:text="${results.number+2}"></a></li>
+                <li th:if="${results.number+2 lt results.totalPages}"><a href="#" th:href="@{${curUrl}(page=${results.number}+2)}" th:text="${results.number+3}"></a></li>
+            </div>
+ 
+ 
+            <li th:if="${results.hasNext()}"><a href="#" th:href="@{${curUrl}(page=${results.number+1})}">[[#{page.next}]]</a></li>
+            <!--<li><a href="#" th:href="@{${curUrl}(page=${results.totalPages-1})}">尾页</a></li>-->
+            <li><a href="#" th:href="${results.totalPages le 0 ? curUrl+'page=0':curUrl+'&amp;page='+(results.totalPages-1)}">[[#{page.last}]]</a></li>
+            <li><span th:utext="#{page.total}+' '+${results.totalPages}+' '+#{page.pages}+' / '+${results.totalElements}+' '+#{page.records}"></span></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
