@@ -14,7 +14,6 @@ import org.thymeleaf.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(path = "/thinkwork")
 public class RegisterController  extends BaseController {
     @Autowired
     UserService userService;

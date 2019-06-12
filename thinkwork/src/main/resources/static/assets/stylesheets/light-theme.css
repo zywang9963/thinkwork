@@ -1324,9 +1324,10 @@ h1 [class^="icon-"] {
   margin-left: -20px;
   margin-right: -20px;
   margin-top: 0;
+  margin-bottom: 0;
   color: #222222;
-  background: white;
-  padding: 22px 20px;
+  background: #fafafa;
+  padding: 6px 5px;
   *zoom: 1; }
   .page-header:before, .page-header:after {
     display: table;
@@ -3567,7 +3568,10 @@ body.forgot-password #wrapper .controls .form-wrapper button {
         padding-left: 15px; } }
 
 .form-actions {
-  background-color: #f4f4f4; }
+  background-color: #f4f4f4; 
+  padding: 10px 10px 10px;
+  margin: 0;
+  border: 1px solid #e5e5e5;}
 
 .select2-container .select2-choice {
   border-color: #d0d0d0 !important; }
@@ -3708,7 +3712,8 @@ a, a:hover, .btn-link, .btn-link:hover {
     background-color: #9564e2; }
 
 .breadcrumb > li, .label, .badge {
-  text-shadow: none; }
+  text-shadow: none; 
+  font-size: smaller;}
 
 .label-important {
   background-color: #f34541; }

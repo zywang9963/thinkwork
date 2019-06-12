@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 
 @Controller
-@RequestMapping(path = "/thinkwork/sys/menu")
+@RequestMapping(path = "/sys/menu")
 public class MenuController extends BaseController {
     @Autowired
     private MenuService menuService;

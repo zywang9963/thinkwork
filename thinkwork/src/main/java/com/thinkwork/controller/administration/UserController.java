@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 @Controller
-@RequestMapping(path = "/thinkwork/sys/user")
+@RequestMapping(path = "/sys/user")
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;

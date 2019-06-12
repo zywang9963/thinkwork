@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(path = "/thinkwork/sys")
+@RequestMapping(path = "/sys")
 public class HomeController extends BaseController {
 
     @GetMapping(value = {"/home"})

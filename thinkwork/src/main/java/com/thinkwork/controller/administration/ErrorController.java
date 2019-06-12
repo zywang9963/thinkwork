@@ -15,7 +15,6 @@ public class ErrorController  extends BaseController {
     @GetMapping(value = {"/error"})
     public String errorHandler(@RequestParam String errorCode) {
         return "/error/err"+errorCode;
-
     }
 
     @Override

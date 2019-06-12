@@ -18,7 +18,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					</div>
 				</div>
 				<div class="box-content">
-					<form class="form form-horizontal" th:action="@{/thinkwork/sys/user}" th:method="get">
+					<form class="form form-horizontal" th:action="@{/sys/user}" th:method="get">
 						<div style="margin: 0px; padding: 0px; display: inline;">
 							<input type="hidden" id="_csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 						</div>
@@ -65,10 +65,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						</button>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="/thinkwork/sys/user/detail?requestType=CREATE"><i class="icon-plus"></i>   [[#{btn.add}]]</a>
+								<a href="/sys/user/detail?requestType=CREATE"><i class="icon-plus"></i>   [[#{btn.add}]]</a>
 							</li>
 							<li>
-								<a href="/thinkwork/sys/user"><i class="icon-refresh"></i>   [[#{btn.refresh}]]</a>
+								<a href="/sys/user"><i class="icon-refresh"></i>   [[#{btn.refresh}]]</a>
 							</li>
 						</ul>
 					</div>
@@ -90,14 +90,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						<tbody>
 							<tr th:each="user,iterStat : ${results}"  >
 								<!--<th><input name="checkRow" class="styled" type="checkbox"></th>-->
-								<td><a th:text="${user.userName}" th:href="@{/thinkwork/sys/user/detail(requestType='DISPLAY',sid=${user.sid})}">antonette@hotmail.com</a></td>
+								<td><a th:text="${user.userName}" th:href="@{/sys/user/detail(requestType='DISPLAY',sid=${user.sid})}">antonette@hotmail.com</a></td>
 								<td   th:text="${user.email}"></td>
 								<td   th:text="${#dates.format(user.dateCreated,'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td class="align-center"><span th:class="${user.expired}?'label label-success':'label label-important'" th:text="${user.expired}?'N':'Y'">Important</span></td>
 								<td class="align-center"><span th:class="${user.active}?'label label-success':'label label-important'" th:text="${user.active}?'Active':'Inactive'">Important</span></td>
 								<!--<td class="align-center"> 
 									<ul class="table-controls">
-										<li><a th:href="@{/thinkwork/sys/user/detail(requestType='UPDATE',sid=${user.sid})}" class="tip" title="Edit entry"><i class="fam-pencil"></i></a> </li>
+										<li><a th:href="@{/sys/user/detail(requestType='UPDATE',sid=${user.sid})}" class="tip" title="Edit entry"><i class="fam-pencil"></i></a> </li>
 										<li><a  href="javascript:;" th:onclick="|javascript:removeEntity('${user.sid}')|" class="tip" title="Remove entry"><i class="fam-cross"></i></a> </li>
 									</ul>
 								</td>-->

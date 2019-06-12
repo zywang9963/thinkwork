@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(path = "/thinkwork/sys/role")
+@RequestMapping(path = "/sys/role")
 public class RoleController extends BaseController {
     @Autowired
     private RoleService roleService;
