@@ -41,7 +41,7 @@ public class PortalController extends BaseController {
         List<MenuGroup> mgList = (List<MenuGroup>)session.getAttribute(SysConstants.SESSION_USER_MENU_KEY+user.getUserName());
         model.addAttribute("menuGroup", mgList);
         model.addAttribute("user",user);
-        return "index";
+        return "/index";
     }
 
     @Override

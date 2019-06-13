@@ -82,9 +82,9 @@ public class UserController extends BaseController {
 
     @PostMapping("/update")
     public String update(Model model, User tempUser, HttpServletRequest request) {
-        model.addAttribute("requestType", SysConstants.REQUEST_TYPE_UPDATE);
         model.addAttribute("tempData", tempUser);
         userService.update(tempUser);
+        model.addAttribute("requestType", SysConstants.REQUEST_TYPE_DISPLAY);
         model.addAttribute("updateSuccessfully", "1");
         return detailPage;
     }
